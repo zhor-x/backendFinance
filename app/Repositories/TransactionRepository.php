@@ -27,7 +27,10 @@ class TransactionRepository
         if ($data->dates) {
             $query->whereBetween('date', $data->dates);
         }else{
-            $query->where('date', '>=', now()->subMonth());
+            $query->whereBetween('date', [
+                now()->startOfMonth(),
+                now()->endOfMonth()->endOfDay(),
+            ]);
         }
         if ($data->limit) {
             $query->limit($data->limit);
